@@ -47,7 +47,7 @@ class SeriesController extends Controller
     }
 
     public function store(Request $request) {
-        $nomeSerie = $request->input('nome');
+        // $nomeSerie = $request->input('nome');
 
         // if (DB::insert('INSERT INTO series (nome) VALUES (?)', [$nomeSerie])) {
         //         return "OK";
@@ -55,10 +55,12 @@ class SeriesController extends Controller
         //     return "Deu erro";
         // }
 
-        $serie = new Serie();
-        $serie->nome = $nomeSerie;
-        $serie->save();
+        // $serie = new Serie();
+        // $serie->nome = $nomeSerie;
+        // $serie->save();
 
-        return redirect('/series');
+        Serie::create($request->all());
+
+        return to_route('series.index');
     }
 }
