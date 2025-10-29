@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class SeriesController extends Controller
@@ -29,5 +30,9 @@ class SeriesController extends Controller
         // return view('listar-series', compact('series'));
 
         return view('series.index')->with('series', $series);
+    }
+
+    public function create() {
+        return view('series.create');
     }
 }
