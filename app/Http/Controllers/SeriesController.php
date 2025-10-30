@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SeriesFormRequest;
 use App\Models\Serie;
 
 use Illuminate\Contracts\View\View;
@@ -48,7 +49,7 @@ class SeriesController extends Controller
         return view('series.create');
     }
 
-    public function store(Request $request) {
+    public function store(SeriesFormRequest $request) {
         // $nomeSerie = $request->input('nome');
 
         // if (DB::insert('INSERT INTO series (nome) VALUES (?)', [$nomeSerie])) {
@@ -61,6 +62,9 @@ class SeriesController extends Controller
         // $serie->nome = $nomeSerie;
         // $serie->save();
 
+        $request->validate([
+
+        ]);
         $serie = Serie::create($request->all());
         // Menos elegante
         // $request->session()->flash('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso!");
@@ -82,7 +86,7 @@ class SeriesController extends Controller
         return view('series.edit')->with('serie', $series);
     }
 
-    public function update(Serie $series, Request $request)
+    public function update(Serie $series, SeriesFormRequest $request)
     {
         $series->fill($request->all());
         $series->save();
