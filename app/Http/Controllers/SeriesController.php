@@ -41,7 +41,7 @@ class SeriesController extends Controller
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
 
         return view('series.index')->with('series', $series)
-            ->with('mensagemSucesso',$mensagemSucesso);
+            ->with('mensagemSucesso', $mensagemSucesso);
     }
 
     public function create() {
@@ -66,7 +66,7 @@ class SeriesController extends Controller
         // $request->session()->flash('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso!");
 
         return to_route('series.index')
-            ->with('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso!");
+            ->with('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso");
     }
 
     public function destroy(Serie $series) {
@@ -75,20 +75,20 @@ class SeriesController extends Controller
         // $request->session()->flash('mensagem.sucesso', "Série '{$series->nome}' removida com sucesso!");
 
         return to_route('series.index')
-            ->with('mensagem.sucesso', "Série '{$series->nome}' removida com sucesso!");
+            ->with('mensagem.sucesso', "Série '{$series->nome}' removida com sucesso");
     }
 
     public function edit(Serie $series) {
-        return view('series.edit')->with('series', $series);
+        return view('series.edit')->with('serie', $series);
     }
 
-    public function update(Request $request, Serie $series) {
+    public function update(Serie $series, Request $request)
+    {
         $series->fill($request->all());
         $series->save();
 
-        session()->flash('mensagem.sucesso', 'Série atualizada com sucesso!');
-
-        return to_route('series.index');
+        return to_route('series.index')
+            ->with('mensagem.sucesso', "Série '{$series->nome}' atualizada com sucesso");
             // ->with('mensagem.sucesso', "Série '{$series->nome}' alterada com sucesso!");
     }
 }
