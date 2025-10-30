@@ -9,15 +9,23 @@
 
     <ul class="list-group">
         @foreach ($series as $serie)
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            {{ $serie->nome }}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ $serie->nome }}</span>
 
-            <form action="{{ route('series.destroy', $serie->id) }}" method="post">
-                @csrf
-                @method('DELETE')
-                <button class="btn btn-danger btn-sm">X</button>
-            </form>
-        </li>
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="{{ route('series.edit', $serie->id) }}" class="btn btn-primary btn-sm">
+                        Alterar
+                    </a>
+
+                    <form action="{{ route('series.destroy', $serie->id) }}" method="post" class="m-0 p-0">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm">
+                            X
+                        </button>
+                    </form>
+                </div>
+            </li>
         @endforeach
     </ul>
 </x-layout>

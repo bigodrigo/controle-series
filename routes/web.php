@@ -19,7 +19,7 @@ Route::get('/', function () {
 });
 
 Route::resource('/series', SeriesController::class)
-    ->only(['index','create','store','destroy']);
+    ->only(['index','create','store','destroy','edit','update']);
 // Route::controller(SeriesController::class)->group(function () {
 //     Route::get('/series', 'index')->name('series.index');
 //     Route::get('/series/create', 'create')->name('series.create');
