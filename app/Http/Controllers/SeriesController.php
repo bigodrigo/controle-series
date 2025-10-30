@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class SeriesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // $series = [
         //     'Punisher',
@@ -38,8 +38,10 @@ class SeriesController extends Controller
         // return $html;
 
         // return view('listar-series', compact('series'));
+        $mensagemSucesso = $request->session()->get('mensagem.sucesso');
 
-        return view('series.index')->with('series', $series);
+        return view('series.index')->with('series', $series)
+            ->with('mensagemSucesso',$mensagemSucesso);
     }
 
     public function create() {
@@ -59,8 +61,19 @@ class SeriesController extends Controller
         // $serie->nome = $nomeSerie;
         // $serie->save();
 
-        Serie::create($request->all());
+        $serie = Serie::create($request->all());
+        // Menos elegante
+        // $request->session()->flash('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso!");
 
-        return to_route('series.index');
+        return to_route('series.index')
+            ->with('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso!");
+    }
+
+    public function destroy(Serie $series) {
+        $series->delete();
+        // Precisa do request e é menos elegante
+        // $request->session()->flash('mensagem.sucesso', "Série '{$series->nome}' removida com sucesso!");
+
+        return to_route('mensagem.sucesso', "Série '{$series->nome}' removida com sucesso!");
     }
 }
