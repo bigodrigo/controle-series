@@ -62,10 +62,22 @@ class SeriesController extends Controller
         // $serie->nome = $nomeSerie;
         // $serie->save();
 
-        $request->validate([
+        // $request->validate([
 
-        ]);
+        // ]);
+
         $serie = Series::create($request->all());
+        for ($i = 1; $i <= $request->seasonsQty; $i++) {
+            $season = $serie->seasons()->create([
+                'number' => $i,
+            ]);
+
+            for($j = 1; $j <= $request->episodesPerSeason; $j++) {
+                $season->episodes()->create([
+                    'number' => $j
+                ]);
+            }
+        }
         // Menos elegante
         // $request->session()->flash('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso!");
 
