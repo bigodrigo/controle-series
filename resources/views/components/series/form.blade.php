@@ -13,5 +13,8 @@
                @isset($nome)value="{{ $nome }}"@endisset>
     </div>
 
-    <button type="submit" class="btn btn-primary">Adicionar</button>
+    <button type="submit" class="btn btn-primary">
+        {{ $update ? 'Atualizar' : 'Adicionar' }}
+    </button>
+
 </form>

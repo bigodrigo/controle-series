@@ -22,9 +22,9 @@ class SeriesController extends Controller
 
         // $series = DB::select('SELECT nome FROM series;');
 
-        // $series = Serie::all();
+         $series = Serie::all();
 
-        $series = Serie::query()->orderBy('nome')->get();
+        // $series = Serie::query()->orderBy('nome')->get();
 
         // return view('listar-series', [
         //     'series' => $series
@@ -39,7 +39,8 @@ class SeriesController extends Controller
         // return $html;
 
         // return view('listar-series', compact('series'));
-        $mensagemSucesso = $request->session()->get('mensagem.sucesso');
+        // $mensagemSucesso = $request->session()->get('mensagem.sucesso');
+        $mensagemSucesso = session('mensagem.sucesso');
 
         return view('series.index')->with('series', $series)
             ->with('mensagemSucesso', $mensagemSucesso);
