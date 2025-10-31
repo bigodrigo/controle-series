@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Serie;
-
+use App\Models\Series;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +21,7 @@ class SeriesController extends Controller
 
         // $series = DB::select('SELECT nome FROM series;');
 
-         $series = Serie::all();
+         $series = Series::all();
 
         // $series = Serie::query()->orderBy('nome')->get();
 
@@ -66,7 +65,7 @@ class SeriesController extends Controller
         $request->validate([
 
         ]);
-        $serie = Serie::create($request->all());
+        $serie = Series::create($request->all());
         // Menos elegante
         // $request->session()->flash('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso!");
 
@@ -74,7 +73,7 @@ class SeriesController extends Controller
             ->with('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso");
     }
 
-    public function destroy(Serie $series) {
+    public function destroy(Series $series) {
         $series->delete();
         // Precisa do request e é menos elegante
         // $request->session()->flash('mensagem.sucesso', "Série '{$series->nome}' removida com sucesso!");
@@ -83,11 +82,11 @@ class SeriesController extends Controller
             ->with('mensagem.sucesso', "Série '{$series->nome}' removida com sucesso");
     }
 
-    public function edit(Serie $series) {
+    public function edit(Series $series) {
         return view('series.edit')->with('serie', $series);
     }
 
-    public function update(Serie $series, SeriesFormRequest $request)
+    public function update(Series $series, SeriesFormRequest $request)
     {
         $series->fill($request->all());
         $series->save();
