@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Episode;
-use App\Models\Season;
+
 use App\Models\Series;
+use App\Repositories\SeriesRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 
 
 class SeriesController extends Controller
 {
+    public function __construct(private SeriesRepository $repository)
+    {
+
+    }
     public function index(Request $request)
     {
         // $series = [
@@ -52,42 +56,7 @@ class SeriesController extends Controller
     }
 
     public function store(SeriesFormRequest $request) {
-        // $nomeSerie = $request->input('nome');
-
-        // if (DB::insert('INSERT INTO series (nome) VALUES (?)', [$nomeSerie])) {
-        //         return "OK";
-        // } else {
-        //     return "Deu erro";
-        // }
-
-        // $serie = new Serie();
-        // $serie->nome = $nomeSerie;
-        // $serie->save();
-
-        // $request->validate([
-
-        // ]);
-
-        $serie = Series::create($request->all());
-        $seasons = [];
-        for ($i = 1; $i <= $request->seasonsQty; $i++) {
-            $seasons[] = [
-                'series_id' => $serie->id,
-                'number' => $i
-            ];
-        }
-        Season::insert($seasons);
-
-        $episodes = [];
-        foreach ($serie->seasons as $season) {
-            for($j = 1; $j <= $request->episodesPerSeason; $j++) {
-                $episodes[] = [
-                    'season_id' => $season->id,
-                    'number' => $j
-                ];
-            }
-        }
-        Episode::insert($episodes);
+        $serie = $this->repository->addSeries($request);
         // Menos elegante
         // $request->session()->flash('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso!");
 
