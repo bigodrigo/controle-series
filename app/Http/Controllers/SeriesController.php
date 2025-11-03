@@ -9,8 +9,6 @@ use App\Repositories\SeriesRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
-
-
 class SeriesController extends Controller
 {
     public function __construct(private SeriesRepository $repository)
