@@ -15,7 +15,7 @@ class SeriesController extends Controller
 {
     public function __construct(private SeriesRepository $repository)
     {
-        $this->middleware(Autenticador::class)->except('index');
+        $this->middleware('auth')->except('index');
     }
     public function index(Request $request)
     {
@@ -60,14 +60,14 @@ class SeriesController extends Controller
         // Menos elegante
         // $request->session()->flash('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso!");
 
-        $email = new SeriesCreated(
-            $serie->nome,
-            $serie->id,
-            $request->seasonsQty,
-            $request->episodesPerSeason,
-        );
+        // $email = new SeriesCreated(
+        //     $serie->nome,
+        //     $serie->id,
+        //     $request->seasonsQty,
+        //     $request->episodesPerSeason,
+        // );
 
-        Mail::to($request->user())->send($email);
+        // Mail::to($request->user())->send($email);
         return to_route('series.index')
             ->with('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso");
     }
