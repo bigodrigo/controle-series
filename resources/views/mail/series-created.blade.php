@@ -1,13 +1,14 @@
-@component('mail::message')
-
+<x-mail::message>
 # {{ $nomeSerie }} criada
 
 A série {{ $nomeSerie }} com {{ $qtdTemporadas }} temporadas e {{ $episodiosPorTemporada }} episódios.
 
 Acesse aqui:
 
-@component('mail::button', ['url' => route('seasons.index', $idSerie)])
-    Ver série
-@endcomponent
+<x-mail::button :url="route('seasons.index', $idSerie)">
+Ver série
+</x-mail::button>
 
-@endcomponent
+Até logo,<br>
+{{ config('app.name') }}
+</x-mail::message>
