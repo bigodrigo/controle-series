@@ -8,6 +8,7 @@ use App\Mail\SeriesCreated;
 use App\Models\Series;
 use App\Repositories\SeriesRepository;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -60,14 +61,19 @@ class SeriesController extends Controller
         // Menos elegante
         // $request->session()->flash('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso!");
 
+        // $userList = User::all();
+        // foreach ($userList as $index => $user) {
         $email = new SeriesCreated(
             $serie->nome,
             $serie->id,
             $request->seasonsQty,
             $request->episodesPerSeason,
         );
-
+        //     $when = now()->addSeconds($index * 5);
+        //     Mail::to($user)->later($when, $email);
+        // }
         Mail::to($request->user())->send($email);
+
         return to_route('series.index')
             ->with('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso");
     }
