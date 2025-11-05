@@ -61,18 +61,13 @@ class SeriesController extends Controller
         // Menos elegante
         // $request->session()->flash('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso!");
 
-        // $userList = User::all();
-        // foreach ($userList as $index => $user) {
-        $email = new SeriesCreated(
+        \App\Events\SeriesCreated::dispatch(
             $serie->nome,
             $serie->id,
             $request->seasonsQty,
             $request->episodesPerSeason,
+            $request->user()
         );
-        //     $when = now()->addSeconds($index * 5);
-        //     Mail::to($user)->later($when, $email);
-        // }
-        Mail::to($request->user())->send($email);
 
         return to_route('series.index')
             ->with('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso");
