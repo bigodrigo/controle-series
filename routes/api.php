@@ -3,6 +3,7 @@
 use App\Models\Episode;
 use App\Models\Series;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,25 +21,39 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::get('/series', function () {
-//     return \App\Models\Series::all();
-// });
+Route::middleware('auth:sanctum')->group(function () {
+    // Route::get('/series', function () {
+    //     return \App\Models\Series::all();
+    // });
 
-// Route::get('/series', [App\Http\Controllers\api\SeriesController::class]);
+    // Route::get('/series', [App\Http\Controllers\api\SeriesController::class]);
 
-Route::apiResource('/series', App\Http\Controllers\api\SeriesController::class);
+    Route::apiResource('/series', App\Http\Controllers\api\SeriesController::class);
 
-Route::get('/series/{series}/seasons', function (Series $series) {
-    return $series->seasons;
+    Route::get('/series/{series}/seasons', function (Series $series) {
+        return $series->seasons;
+    });
+
+    Route::get('/series/{series}/episodes', function (Series $series) {
+        return $series->episodes;
+    });
+
+    Route::patch('/episodes/{episode}', function (Episode $episode, Request $request) {
+        $episode->watched = $request->watched;
+        $episode->save();
+
+        return $episode;
+    });
 });
 
-Route::get('/series/{series}/episodes', function (Series $series) {
-    return $series->episodes;
-});
+Route::post('/login', function (Request $request) {
+    $credentials = $request->only(['email', 'password']);
+    if (Auth::attempt($credentials) === false) {
+        return response()->json('Unauthorized', 401);
+    }
 
-Route::patch('/episodes/{episode}', function (Episode $episode, Request $request) {
-    $episode->watched = $request->watched;
-    $episode->save();
+    $user = Auth::user();
+    $token = $user->createToken('token');
 
-    return $episode;
+    return response()->json($token->plainTextToken);
 });
