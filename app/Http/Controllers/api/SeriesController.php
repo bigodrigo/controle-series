@@ -27,8 +27,17 @@ class SeriesController extends Controller {
     //     return $series;
     // }
 
-    public function show(Series $series) {
-	    return $series;
+    // public function show(Series $series) {
+	//     return $series;
+    // }
+
+    public function show(int $series) {
+        $seriesModel = Series::with('seasons.episodes')->find($series); // 1 q!
+        if ($seriesModel === null) {
+            return response()->json(['message' => 'Série não encontrada'], 404);
+        } else {
+            return $seriesModel; // ->with('seasons.episodes')->get(); // 2 queries!
+        }
     }
 
     public function update(Series $series, SeriesFormRequest $request) {
