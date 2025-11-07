@@ -6,7 +6,6 @@ use App\Models\Season;
 use Illuminate\Http\Request;
 use App\Repositories\SeriesRepository;
 use Illuminate\Support\Facades\DB;
-use App\Models\Episode;
 
 class EpisodesController
 {
@@ -24,10 +23,8 @@ class EpisodesController
         DB::transaction(function () use ($request, $season) {
             $watchedIds = $request->episodes ?? [];
 
-            // Reseta todos para false
             $season->episodes()->update(['watched' => false]);
 
-            // Define apenas os marcados como true
             if (!empty($watchedIds)) {
                 $season->episodes()
                     ->whereIn('id', $watchedIds)

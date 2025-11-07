@@ -22,12 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    // Route::get('/series', function () {
-    //     return \App\Models\Series::all();
-    // });
-
-    // Route::get('/series', [App\Http\Controllers\api\SeriesController::class]);
-
     Route::apiResource('/series', App\Http\Controllers\api\SeriesController::class);
 
     Route::get('/series/{series}/seasons', function (Series $series) {

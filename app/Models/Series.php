@@ -28,9 +28,6 @@ class Series extends Model
         });
     }
 
-    // public function scopeActive(Builder $query) {
-    //     return $query->where('active', true);
-    // }
     public function links(): Attribute {
         return new Attribute(
             get: fn () => [
